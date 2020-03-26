@@ -4,11 +4,25 @@ import './tailwind.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
+import {ApolloProvider} from 'react-apollo';
+import {ApolloClient} from 'apollo-client';
+import {createHttpLink} from 'apollo-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+
+const link = createHttpLink({
+    uri: 'http://localhost:3000/graphiql'
+});
+
+const client = new ApolloClient({
+    link: link,
+    cache: new InMemoryCache()
+});
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <ApolloProvider client={client}>
+        <App/>
+    </ApolloProvider>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
